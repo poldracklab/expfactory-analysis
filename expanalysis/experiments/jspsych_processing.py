@@ -1163,9 +1163,9 @@ def calc_discount_fixed_DV(df, dvs={}):
             warnings.append('Found trials without response.')
             data = data[numpy.isfinite(data['patient1_impatient0'])]
         #edge cases with one type of response
-        if(sum(data['patient1_impatient0'].unique() == 0)):
+        if(set(data['patient1_impatient0']) == {0.0}):
             hyp_discount_rate_glm = max(data['indiff_k'])
-        elif(sum(data['patient1_impatient0'].unique() == 1)):
+        elif(set(data['patient1_impatient0']) == {1.0}):
             hyp_discount_rate_glm = min(data['indiff_k'])
         else:
             try:
