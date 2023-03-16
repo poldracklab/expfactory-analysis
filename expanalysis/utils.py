@@ -36,28 +36,32 @@ def get_pages(url=None,access_token=None,last_url=None):
         url = "http://www.expfactory.org/api/results"
 
     if access_token != None:
-        headers = {"Authorization":"token %s" %(access_token)}    
+        headers = {"Authorization":"token %s" %(access_token)}
 
     results = []
 
+    out_file = './' + url.split('/')[-2] + '.json'
+    print(out_file)
     # Continue retrieving pages until there is no next page
     while url != None:
-       print("Retrieving %s" %(url))
-       r = get_url(url,headers=headers)
-       if r.status_code == 200:
-           data = r.json()
-           results = results + data["results"]
-           url = data["next"]
-           if last_url != None and url == last_url:
-              break
-       else:       
-           print("Error: %s" %(r.reason))
-           if (r.reason) == 'UNAUTHORIZED':
-               break
-    print("Found %s results!" %(len(results)))
-    
+        print("Retrieving %s" %(url))
+        r = get_url(url,headers=headers)
+        if r.status_code == 200:
+            data = r.json()
+            # results.extend(data["results"])
+            url = data["next"]
+            with open(out_file, "a") as of:
+                of.write(json.dumps(data["results"]) + '\n')
+            if last_url != None and url == last_url:
+                break
+        else:
+            print("Error: %s" %(r.reason))
+            if (r.reason) == 'UNAUTHORIZED':
+                break
+            print("Found %s results!" %(len(results)))
+
     return results
-     
+
     
 def get_url(url,headers=None):
     '''get_url returns a url, with params embedded in the header

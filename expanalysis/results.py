@@ -29,8 +29,8 @@ class Result:
         # If access token is provided, parse immediately
         if access_token != None:
             self.json = get_results(url=url, access_token=access_token, last_url=last_url)
-            self.results_to_df(fields)
-            self.clean_results(filters)
+            # self.results_to_df(fields)
+            # self.clean_results(filters)
     
     def load_results(self,json_file):
         '''load_results will load a saved json object result
@@ -58,7 +58,8 @@ class Result:
                     field_df.index = range(0,field_df.shape[0])
                     field_df.columns = ["%s_%s" %(field,x) for x in field_df.columns.tolist()]
                     self.data = pandas.concat([self.data,field_df],axis=1)
-                except:
+                except as e:
+                    print(e)
                     self.data[field] = tmp[field]                   
             else:
                  self.data[field] = tmp[field]                   

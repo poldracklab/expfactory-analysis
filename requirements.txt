@@ -1,8 +1,8 @@
 numpy
 scipy
-seaborn
-numexpr
-statsmodels
-hddm
-pymc
-kabuki
+#seaborn
+#numexpr
+#statsmodels
+#hddm
+#pymc
+#kabuki
